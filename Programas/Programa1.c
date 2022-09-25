@@ -58,12 +58,39 @@ int menu_metodos()
 {
     int opcion;
 
+    system("cls");
+	
+	printf("\n\t\tP1 Metodos\n\n");
+	
+	printf("1. Metodo de Newton\n");
+	printf("2. Metodo biseccion\n");
+    printf("3. Salir\n");
+
+	
+	printf("Opcion: ");
+	scanf("%d", &opcion);
+	
+
+    return opcion;
 
 
 }
-int menu_funciones()
+int menu_funciones(char *s)
 {
+    int opcion;
 
+    system("cls");
+
+    printf("\n\t\tP1 Metodos: %s\n\n", s);
+	
+	printf("1. f(x) = x^2 cos(x) - 2x\n");
+    printf("1. f(x) = (6 - 2/x^2)(e^2+x/4)+1\n");
+    printf("1. f(x) = x^3 - 3sen(x^2) + 1\n");
+    printf("1. f(x) = x^3 + 6x^2 + 9.4x + 2.5\n");
+    printf("4. Salir\n");
+
+    printf("Opcion:");
+    scanf("%d", &opcion);
 }
 //Metodos
 long double metodoNewton(int opcion)
@@ -248,8 +275,25 @@ long double metodoBiseccion(int opcion)
 
 int main(int argc, char const *argv[])
 {
-    //metodoNewton(1);
-    metodoBiseccion(1);
+    int opcion;
+
+    do
+    {
+        opcion = menu_metodos();
+        switch (opcion)
+        {
+        case 1:
+            /* code */
+        break;
+        case 2:
+
+        break;
+        default:
+            printf("Adios");
+        break;
+        }
+    }while(opcion != 3);
+
 
     return 0;
 }
