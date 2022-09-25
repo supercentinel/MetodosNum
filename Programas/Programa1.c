@@ -66,14 +66,10 @@ int menu_metodos()
 	printf("2. Metodo biseccion\n");
     printf("3. Salir\n");
 
-	
 	printf("Opcion: ");
 	scanf("%d", &opcion);
 	
-
     return opcion;
-
-
 }
 int menu_funciones(char *s)
 {
@@ -84,13 +80,15 @@ int menu_funciones(char *s)
     printf("\n\t\tP1 Metodos: %s\n\n", s);
 	
 	printf("1. f(x) = x^2 cos(x) - 2x\n");
-    printf("1. f(x) = (6 - 2/x^2)(e^2+x/4)+1\n");
-    printf("1. f(x) = x^3 - 3sen(x^2) + 1\n");
-    printf("1. f(x) = x^3 + 6x^2 + 9.4x + 2.5\n");
-    printf("4. Salir\n");
+    printf("2. f(x) = (6 - 2/x^2)(e^2+x/4)+1\n");
+    printf("3. f(x) = x^3 - 3sen(x^2) + 1\n");
+    printf("4. f(x) = x^3 + 6x^2 + 9.4x + 2.5\n");
+    printf("5. Salir\n");
 
     printf("Opcion:");
     scanf("%d", &opcion);
+
+    return opcion;
 }
 //Metodos
 long double metodoNewton(int opcion)
@@ -102,7 +100,9 @@ long double metodoNewton(int opcion)
     scanf("%Lf", &x_k);
     printf("Tolerancia con respecto a:\n");
     printf("[1]Error absoluto [2]Error relativo [3]Error porcentual\n");
-    scanf("%d", &op2);
+    do    
+        scanf("%d", &op2);
+    while(op2 < 1 || op2 > 3);
     printf("Tolerancia> ");
     scanf("%Lf", &T);
 
@@ -154,9 +154,10 @@ long double metodoNewton(int opcion)
         break;
         }
 
+        if(ext == 1) break;
+        
         x_k = x_kp1;
         k++;
-        if(ext == 1) break;
     }
     
     return x_k;
@@ -172,7 +173,9 @@ long double metodoBiseccion(int opcion)
     scanf("%Lf", &b);
     printf("Tolerancia con respecto a:\n");
     printf("[1]Error absoluto [2]Error relativo [3]Error porcentual\n");
-    scanf("%d", &op2);
+    do    
+        scanf("%d", &op2);
+    while(op2 < 1 || op2 > 3);
     printf("Tolerancia> ");
     scanf("%Lf", &T);
 
@@ -275,7 +278,8 @@ long double metodoBiseccion(int opcion)
 
 int main(int argc, char const *argv[])
 {
-    int opcion;
+    int opcion, opcion2;
+    long double raiz;
 
     do
     {
@@ -283,10 +287,68 @@ int main(int argc, char const *argv[])
         switch (opcion)
         {
         case 1:
-            /* code */
+            do
+            {
+                opcion2 = menu_funciones("Metodo Newton");
+
+                switch (opcion2)
+                {
+                case 1:
+                    raiz = metodoNewton(1);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                case 2:
+                    raiz = metodoNewton(2);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                case 3:
+                    raiz = metodoNewton(3);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                case 4:
+                    raiz = metodoNewton(4);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                default:
+                break;    
+                }
+            } while (opcion2 != 5);
         break;
         case 2:
+            do
+            {
+                opcion2 = menu_funciones("Metodo Biseccion");
 
+                switch (opcion2)
+                {
+                case 1:
+                    raiz = metodoBiseccion(1);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                case 2:
+                    raiz = metodoBiseccion(2);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                case 3:
+                    raiz = metodoBiseccion(3);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                case 4:
+                    raiz = metodoBiseccion(4);
+                    printf("Raiz aproximada en: %Lf\n", raiz);
+                    system("pause");  
+                break;
+                default:
+                break;   
+               }
+            } while (opcion2 != 5);
         break;
         default:
             printf("Adios");
