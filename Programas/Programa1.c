@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define MAX_IT 100
+
 //Funcion para comparar signos usada en biseccion
 int diferenteS(long double a, long double b)
 {
@@ -21,7 +23,7 @@ long double f_1(long double x)
 
 long double f_2(long double x)
 {
-    return ((6)-((2)/(x *x))) * ((exp2l(2+x))/(4)) + (1);
+    return ((6)-((2)/(x * x))) * ((exp2l(2+x))/(4)) + (1);
 }
 
 long double f_3(long double x)
@@ -158,6 +160,12 @@ long double metodoNewton(int opcion)
         
         x_k = x_kp1;
         k++;
+        if(k > MAX_IT)
+        {
+            printf("Algo salio mal, intenta en otros valores\n");
+            printf("Devolviendo numero chistoso\n");
+            return 42069;
+        }
     }
     
     return x_k;
@@ -271,6 +279,12 @@ long double metodoBiseccion(int opcion)
         }
 
         k++;
+        if(k > MAX_IT)
+        {
+            printf("Algo salio mal, intenta en otros valores\n");
+            printf("Devolviendo numero chistoso");
+            return 42069;
+        }
     }
     
     return p;
