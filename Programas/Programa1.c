@@ -21,17 +21,17 @@ long double f_1(long double x)
 
 long double f_2(long double x)
 {
-    
+    return ((6)-((2)/(x *x))) * ((exp2l(2+x))/(4)) + (1);
 }
 
-long double f_3()
+long double f_3(long double x)
 {
-    
+    return (x * x * x) - (3 * sinl(x * x)) + (1);
 }
 
-long double f_4()
+long double f_4(long double x)
 {
-    
+    return (x * x * x)+(6 * x * x)+(9.4 * x)+(2.5);
 }
 //Derivadas de las funciones
 long double F_1(long double x)
@@ -39,19 +39,19 @@ long double F_1(long double x)
     return ((x*x) * (-sinl(x)))+(2 * x * cosl(x)) - 2;
 }
 
-long double F_2()
+long double F_2(long double x)
 {
-    
+    return ((exp2l(2+x)) * ((3 * x * x * x)-(x)+(2)))/(2 * x * x * x);
 }
 
-long double F_3()
+long double F_3(long double x)
 {
-    
+    return (3 * x) * ((x)-(2 * cosl(x *x)));
 }
 
-long double F_4()
+long double F_4(long double x)
 {
-    
+    return (3 * x * x)+(12 * x)+(9.4);
 }
 //Menus
 int menu_metodos()
