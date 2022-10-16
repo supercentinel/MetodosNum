@@ -4,6 +4,13 @@
 
 typedef struct 
 {
+    long double r;
+    long double i;
+}Complejo;
+
+
+typedef struct 
+{
     //de m renglones y n columnas
     int m, n;
     long double **a;
@@ -153,12 +160,35 @@ Matriz MatInv(Matriz m, long double det)
 
     return Inv;
 }
+Complejo raiz(long double r, long double s)
+{
+    Complejo q;
+    long double d = r * r + 4 * s;
 
-long double MetodoBaristow(Polinomio p, long double r, long double s, double tolerancia)
+    if (d > 0)
+    {
+        q.r = (r) + (sqrtl(d)/2);
+        q.i = 0;
+    }
+    else
+    {
+        q.r = r/2;
+        q.i = sqrtl(-d)/2;
+    }
+
+    return q;
+}
+
+
+Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tolerancia)
 {
     int i, k = 0;   
     double err_rp, err_sp;
     long double nu_r = r, nu_s = s;
+    //Complejo rz_1, rz_2, rz_3, rz_4;
+    Complejo * raices;
+
+    raices = calloc(4, sizeof(Complejo));
     //division sintetica
     Matriz divisionS, mat_c, mat_b, mat_prod, mat_inv;
 
@@ -221,18 +251,20 @@ long double MetodoBaristow(Polinomio p, long double r, long double s, double tol
         DestruirMat(mat_inv);
         
         //ImpMat(mat_prod);
-
-        err_rp = fabs((mat_prod.a[0][0])/(r)) * 100;
-        err_sp = fabs((mat_prod.a[1][0])/(s)) * 100;
+        err_rp = fabs((mat_prod.a[0][0])/(nu_r)) * 100;
+        err_sp = fabs((mat_prod.a[1][0])/(nu_s)) * 100;
 
         k++;
-
+        
         if(err_rp <= tolerancia && err_sp <= tolerancia) break;
         if(k > 100) break;
-
+        
         nu_r = nu_r + mat_prod.a[0][0];
         nu_s = nu_s + mat_prod.a[1][0];
 
+        printf("r = %LF\n", nu_r);
+        printf("s = %LF\n", nu_s);
+        
         DestruirMat(mat_prod);//temp
         
         divisionS.a[1][0] = nu_r;
@@ -248,31 +280,76 @@ long double MetodoBaristow(Polinomio p, long double r, long double s, double tol
     printf("Error porcentual de r = %lf\n", err_rp);
     printf("Error porcentual de s = %lf\n", err_sp);
     printf("Iteraciones = %d", k);
+
+    ImpMat(divisionS);
+
+    printf("\nasd = %LF\n", divisionS.a[3][2]);
+
+    /*
+    rz_1 = raiz(nu_r, nu_s);
+    rz_2.r = rz_1.r;
+    rz_2.i = -rz_1.i;
+
+    rz_3 = raiz(-divisionS.a[3][2], -divisionS.a[3][3]);
+    rz_4.r = rz_3.r;
+    rz_4.i = -rz_3.i;
+
+    printf("\nRaiz en: %LF %LFi\n", rz_1.r, rz_1.i);
+    printf("\nRaiz en: %LF %LFi\n", rz_2.r, rz_2.i);
+    printf("\nRaiz en: %LF %LFi\n", rz_3.r, rz_3.i);
+    printf("\nRaiz en: %LF %LFi\n", rz_4.r, rz_4.i);
+    //printf("\nRaiz en: %LF %LFi\n", rz_3.r, rz_3.i);
+    */
+    //printf("\nRaiz en: %LF", );
     
+    for ( i = 0; i < 4/2; i++)
+    {
+        if (i%2 == 0)
+        {
+            raices[i] = raiz(nu_r, nu_s);
+            raices[i+1].r = raices[i].r;
+            raices[i+1].i = -raices[i].i;
+        }else
+        {
+            raices[i+1] = raiz(-divisionS.a[3][2], -divisionS.a[3][3]);
+            raices[i+2].r = raices[i+1].r;
+            raices[i+2].i = -raices[i+1].i;
+        }
+        
+    }
+    
+    printf("\nRaiz en: %LF %LFi\n", raices[0].r, raices[0].i);
+    printf("\nRaiz en: %LF %LFi\n", raices[1].r, raices[1].i);
+    printf("\nRaiz en: %LF %LFi\n", raices[2].r, raices[2].i);
+    printf("\nRaiz en: %LF %LFi\n", raices[3].r, raices[3].i);
 
     DestruirMat(mat_prod);
     DestruirMat(mat_c);
     DestruirMat(mat_b);
     DestruirMat(divisionS);
+
+    return raices;
 }
 
 int main()
 {
+    Complejo *ls;
     Polinomio p;
-    long double r, s, yt;
+    long double r, s;
     double tolerancia = 5.0;
 
-    CrearPol(&p, 3);
+    CrearPol(&p, 4);
 
-    r = -0.5;
-    s = 0.5;
+    r = -1;
+    s = -1;
 
     p.c[0] = 1;
-    p.c[1] = -4;
-    p.c[2] = 5.25;
-    p.c[3] = -2.5;
+    p.c[1] = -1.1;
+    p.c[2] = 2.3;
+    p.c[3] = 0.5;
+    p.c[4] = 3.3;
 
-    yt = MetodoBaristow(p, r, s, tolerancia);
+     MetodoBaristow(p, r, s, tolerancia);
 
 
     DestruirPol(p);
