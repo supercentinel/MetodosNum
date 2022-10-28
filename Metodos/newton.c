@@ -3,12 +3,12 @@
 
 long double f(long double x)
 {
-    return x;
+    return ((x/2)*(x/2)*(x/2)) + (3 * sinl(x - 2));
 }
 
 long double F(long double x)
 {
-    return 1;
+    return ((3 * (x * x))/(8)) + (3 * cosl(2 - x));
 }
 
 long double metodoNewton()
@@ -35,7 +35,7 @@ long double metodoNewton()
         fx = f(x_k);
         fdx = F(x_k);
         
-        x_kp1 = (x_k)-((fx)/(fdx));
+        x_kp1 = (x_k) - ((fx)/(fdx));
 
         E_a = fabsl(x_kp1 - x_k);
         E_r = E_a/fabsl(x_kp1);

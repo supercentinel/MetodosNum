@@ -3,7 +3,7 @@
 
 long double f(long double x)
 {
-    return (x * x * x) + (x * x) - (4 * x) - (1);
+    return ((x/2) * (x/2) * (x/2)) + (3 * sinl(x - 2));
 }
 
 int diferenteS(long double a, long double b)

@@ -160,20 +160,35 @@ Matriz MatInv(Matriz m, long double det)
 
     return Inv;
 }
-Complejo raiz(long double r, long double s)
+Complejo raiz(long double r, long double s, int op)
 {
     Complejo q;
-    long double d = r * r + 4 * s;
-
-    if (d > 0)
+    long double d = (r * r) - ( 4 * s);
+    printf("%LF\n", d);
+    if(op == 1)
     {
-        q.r = (r) + (sqrtl(d)/2);
-        q.i = 0;
-    }
-    else
+        if (d > 0)
+        {
+            q.r = -((r + sqrtl(d))/(2));
+            q.i = 0;
+        }
+        else
+        {
+            q.r = -r/2;
+            q.i = sqrtl(-d)/2;
+        }
+    }else
     {
-        q.r = r/2;
-        q.i = sqrtl(-d)/2;
+        if (d > 0)
+        {
+            q.r = -((r - sqrtl(d))/(2));
+            q.i = 0;
+        }
+        else
+        {
+            q.r = -r/2;
+            q.i = -(sqrtl(-d)/2);
+        }
     }
 
     return q;
@@ -188,7 +203,7 @@ Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tole
     //Complejo rz_1, rz_2, rz_3, rz_4;
     Complejo * raices;
 
-    raices = calloc(4, sizeof(Complejo));
+    raices = calloc(p.grado, sizeof(Complejo));
     //division sintetica
     Matriz divisionS, mat_c, mat_b, mat_prod, mat_inv;
 
@@ -236,6 +251,10 @@ Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tole
             divisionS.a[6][i+1] = divisionS.a[3][i+1] + divisionS.a[4][i+1] + divisionS.a[5][i+1];
         }
 
+        printf("\n");
+        ImpMat(divisionS);
+        printf("\n");
+
         mat_c.a[0][0] = divisionS.a[6][(p.grado + 1) - 2];
         mat_c.a[1][0] = divisionS.a[6][p.grado];
         mat_c.a[0][1] = divisionS.a[6][(p.grado + 1) - 3];
@@ -271,7 +290,6 @@ Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tole
         divisionS.a[2][0] = nu_s;
         divisionS.a[4][0] = nu_r;
         divisionS.a[5][0] = nu_s;
-
     }
 
     printf("r = %LF\n", nu_r);
@@ -279,21 +297,19 @@ Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tole
 
     printf("Error porcentual de r = %lf\n", err_rp);
     printf("Error porcentual de s = %lf\n", err_sp);
-    printf("Iteraciones = %d", k);
+    printf("Iteraciones = %d\n", k);
 
-    ImpMat(divisionS);
+    //ImpMat(divisionS);
 
-    printf("\nasd = %LF\n", divisionS.a[3][2]);
+    printf("\nasd = %LF\n", divisionS.a[3][3]);
+
+    raices[0] = raiz(-nu_r, -nu_s, 1);
+    raices[1] = raiz(-nu_r, -nu_s, 0);
+
+    raices[2] = raiz(divisionS.a[3][2], divisionS.a[3][3], 1);
+    raices[3] = raiz(divisionS.a[3][2], divisionS.a[3][3], 0);
 
     /*
-    rz_1 = raiz(nu_r, nu_s);
-    rz_2.r = rz_1.r;
-    rz_2.i = -rz_1.i;
-
-    rz_3 = raiz(-divisionS.a[3][2], -divisionS.a[3][3]);
-    rz_4.r = rz_3.r;
-    rz_4.i = -rz_3.i;
-
     printf("\nRaiz en: %LF %LFi\n", rz_1.r, rz_1.i);
     printf("\nRaiz en: %LF %LFi\n", rz_2.r, rz_2.i);
     printf("\nRaiz en: %LF %LFi\n", rz_3.r, rz_3.i);
@@ -301,8 +317,8 @@ Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tole
     //printf("\nRaiz en: %LF %LFi\n", rz_3.r, rz_3.i);
     */
     //printf("\nRaiz en: %LF", );
-    
-    for ( i = 0; i < 4/2; i++)
+    /*
+    for ( i = 0; i < p.grado/2; i++)
     {
         if (i%2 == 0)
         {
@@ -311,12 +327,13 @@ Complejo * MetodoBaristow(Polinomio p, long double r, long double s, double tole
             raices[i+1].i = -raices[i].i;
         }else
         {
-            raices[i+1] = raiz(-divisionS.a[3][2], -divisionS.a[3][3]);
+            raices[i] = raiz(-divisionS.a[3][2], -divisionS.a[3][3]);
             raices[i+2].r = raices[i+1].r;
             raices[i+2].i = -raices[i+1].i;
         }
         
     }
+    */
     
     printf("\nRaiz en: %LF %LFi\n", raices[0].r, raices[0].i);
     printf("\nRaiz en: %LF %LFi\n", raices[1].r, raices[1].i);
@@ -336,23 +353,24 @@ int main()
     Complejo *ls;
     Polinomio p;
     long double r, s;
-    double tolerancia = 5.0;
+    double tolerancia = 0.00008;
 
     CrearPol(&p, 4);
 
     r = -1;
-    s = -1;
+    s = 2;
 
     p.c[0] = 1;
-    p.c[1] = -1.1;
-    p.c[2] = 2.3;
-    p.c[3] = 0.5;
-    p.c[4] = 3.3;
+    p.c[1] = 4.5;
+    p.c[2] = 2;
+    p.c[3] = -4.5;
+    p.c[4] = -18;
 
-     MetodoBaristow(p, r, s, tolerancia);
+    MetodoBaristow(p, r, s, tolerancia);
+
 
 
     DestruirPol(p);
-
+    free(ls);
     return 0;
 }

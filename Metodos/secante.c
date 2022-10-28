@@ -3,7 +3,7 @@
 
 long double f(long double x)
 {
-    return expl(x) - (4 * x * x);
+    return (x * x * x)-(3 * 4.5 * (x * x))+((4 * 91.125) * ((22)/(62.24)));
 }
 
 long double secante()
