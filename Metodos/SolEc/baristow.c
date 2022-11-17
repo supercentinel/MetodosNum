@@ -15,6 +15,7 @@ typedef struct
     int m, n;
     long double **a;
 }Matriz;
+
 typedef struct
 {
     int grado;
