@@ -19,4 +19,6 @@ Matriz ProdMat(Matriz a, Matriz b);
 Matriz ProdEs(Matriz a, long double b);
 Matriz MatT(Matriz m);
 
+long double maxElmt(Matriz a);
+
 #endif

@@ -107,3 +107,20 @@ Matriz MatT(Matriz m)
     
     return t;
 }
+
+long double maxElmt(Matriz a)
+{
+    int i, j;
+    long double max;
+
+    for ( i = 0; i < a.m; i++)
+    {
+        for ( j = 0; j < a.n; j++)
+        {
+            if(i == 0 && j == 0) max = a.a[i][j];
+            if(a.a[i][j] > max) max = a.a[i][j];
+        }
+    }
+    
+    return max;
+}
