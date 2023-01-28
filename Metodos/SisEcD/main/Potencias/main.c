@@ -83,25 +83,25 @@ int main(int argc, char const *argv[])
 
     CrearMat(&a, 4, 4);
 
-    a.a[0][0] = 4;
-    a.a[0][1] = 2;
-    a.a[0][2] = -1;
-    a.a[0][3] = 1;
+    a.a[0][0] = 0.0795;
+    a.a[0][1] = -0.0227;
+    a.a[0][2] = -0.375;
+    a.a[0][3] = 0.170;
 
-    a.a[1][0] = 2;
-    a.a[1][1] = 8;
-    a.a[1][2] = 4;
-    a.a[1][3] = -3;
+    a.a[1][0] = 0.0568;
+    a.a[1][1] = -0.159;
+    a.a[1][2] = 0.875;
+    a.a[1][3] = -0.307;
 
-    a.a[2][0] = 3;
-    a.a[2][1] = 6;
+    a.a[2][0] = -0.0909;
+    a.a[2][1] = 0.455;
     a.a[2][2] = 2;
-    a.a[2][3] = 2;
+    a.a[2][3] = -0.909;
 
-    a.a[3][0] = 1;
-    a.a[3][1] = 2;
-    a.a[3][2] = 1;
-    a.a[3][3] = -1;
+    a.a[3][0] = 0.0568;
+    a.a[3][1] = -0.159;
+    a.a[3][2] = -1.13;
+    a.a[3][3] = 0.693;
 
     circulos = CirculosDeGerschgorin(a);
 
@@ -110,7 +110,7 @@ int main(int argc, char const *argv[])
         printf("Circulo [i]: c = %LF r = %LF\n", circulos[i].c, circulos[i].r);
     }
     
-    lambdaMax = MPotencias(a, 0.0005, 100);
+    lambdaMax = MPotencias(a, 0.000, 10);
 
     printf("\nEl valor propio maximo es %LF\n", lambdaMax);
 
